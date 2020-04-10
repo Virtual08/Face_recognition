@@ -1,38 +1,103 @@
+html, body ,#root, .App {
+  width: 100%;
+  height: 100%;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  /* text-align: center; */
+  background: linear-gradient(to bottom, #008AFF, #A8A6FF);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  /* align-content: stretch; */
+  /* align-items: center; */
+  /* justify-content: center; */
   font-size: calc(10px + 2vmin);
+  /* min-height: 100vh; */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Menu {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  height: 91%;
+  background-color: #FBFBFB;
+  box-shadow: 1px 10px 10px 0px rgba(0,0,0,0.5);
+  z-index: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Header {
+  display: flex;
+  height: 9%;
+  justify-content: flex-end;
+  background-color: #FBFBFB;
+  width: 100%;
+  box-shadow: 0 0px 10px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.AddingPhoto, .Recognition {
+  display: flex;
+  height: 79%;
+  width: 84%;
+  margin: 3% 3%;
+  box-shadow: 0 0 10px 0px rgba(0,0,0,0.5);
+  background-color: #FBFBFB;
+}
+
+.logo {
+  width: 61%;
+  height: 100%;
+}
+
+.Menu a button {
+  width: 90%;
+  margin: 0 5%;
+}
+
+.Header a:first-child {
+  margin-right: auto;
+}
+
+.Header svg {
+  font-size: calc(16px + 2vmin);
+} 
+
+.Recognition {
+
+}
+
+.content {
+  width: 90%;
+  height: 80%;
+  margin: auto;
+  display: flex;
+}
+
+.people {
+  margin: 3%;
+  width: 54%;
+}
+
+.people img {
+  height: 100%;
+}
+
+.recognitionData {
+  margin: 3%;
+  width: 34%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+input {
+  display: none;
+}
+
+.recognitionData button, .recognitionData label {
+  margin: 5% 0%;
 }
