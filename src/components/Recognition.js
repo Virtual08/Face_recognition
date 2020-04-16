@@ -8,7 +8,7 @@ class Recognition extends Component {
     this.state = {
       selectedFile: null,
       imagePreviewUrl: people,
-      data: null
+      result: null
     }
   };
 
@@ -18,31 +18,39 @@ class Recognition extends Component {
 
     this.setState({
       selectedFile: event.target.files[0],
-      imagePreviewUrl: URL.createObjectURL(event.target.files[0])
+      imagePreviewUrl: URL.createObjectURL(event.target.files[0]),
+      result: null
     })
   }
 
   fileUploadHandler = event => {
     var formData = new FormData();
-    formData.append('image', this.imagePreviewUrl);
+    formData.append('file', this.state.selectedFile);
+
+    console.log(this.state.selectedFile);
+    console.log(formData.getAll('file'));
 
     fetch('http://localhost:8080/recognize', {
       method: 'POST',
       headers: {
-          'Content-Type': 'multipart/formdata'
+          // 'Content-Type': 'multipart/form-data'
       },
       body: formData
     })
       .then(response => response.json())
-      .then(data => this.setState(data));
+      .then(result => {this.setState(result)});
   }
 
   render() {
+
     return (
       <div className="Recognition">
         <div className="content">
           <div className="people"><img src={this.state.imagePreviewUrl} alt="People" /></div>
           <div className="recognitionData">
+            {this.state.result != null ?  
+              <div>Лицо найдено: {this.state.result.face_found_in_image.toString()} <br></br> Кто на фотографии: {this.state.result.is_picture_of.toString()}</div> :
+             <div className="None"></div>}
             <input
               accept="image/*"
               className="Test"

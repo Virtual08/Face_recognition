@@ -68,6 +68,10 @@ html, body ,#root, .App {
 
 }
 
+.recognitionData {
+  color: black;
+}
+
 .content {
   width: 90%;
   height: 80%;
