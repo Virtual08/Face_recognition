@@ -51,7 +51,7 @@ class Menu extends Component {
           </Button>
         </Link>
         <Link to='/addingPhoto'>
-          <Button variant="outlined" color="primary" disabled>
+          <Button variant="outlined" color="primary">
             Adding photo
           </Button>
         </Link>
