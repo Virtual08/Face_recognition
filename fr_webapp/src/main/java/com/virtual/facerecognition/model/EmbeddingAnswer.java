@@ -8,7 +8,7 @@ public class EmbeddingAnswer {
 
     private List<Double> faceEmbedding;
 
-    public boolean getIsFaceIsFoundInImage() {
+    public boolean getFaceIsFoundInImage() {
         return faceIsFoundInImage;
     }
 

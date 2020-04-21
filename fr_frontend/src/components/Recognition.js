@@ -49,7 +49,7 @@ class Recognition extends Component {
           <div className="people"><img src={this.state.imagePreviewUrl} alt="People" /></div>
           <div className="recognitionData">
             {this.state.result != null ?  
-              <div>Лицо найдено: {this.state.result.faceIsFoundInImage.toString()} <br></br> Кто на фотографии: {this.state.result.is_picture_of.toString()}</div> :
+              <div>Лицо найдено: {this.state.result.faceIsFoundInImage.toString()} <br></br> Кто на фотографии: {this.state.result.personData.firstName}</div> :
              <div className="None"></div>}
             <input
               accept="image/*"

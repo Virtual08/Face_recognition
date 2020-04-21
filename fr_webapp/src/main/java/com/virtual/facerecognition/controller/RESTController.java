@@ -6,7 +6,6 @@ import com.virtual.facerecognition.db.repository.FacesRepository;
 import com.virtual.facerecognition.db.repository.PeopleRepository;
 import com.virtual.facerecognition.model.Answer;
 import com.virtual.facerecognition.model.Answer2;
-import com.virtual.facerecognition.model.EmbeddingAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -47,6 +46,8 @@ public class RESTController {
 
         Answer2 answer2 = restTemplate.postForEntity(frLogicApiUrl + "/recognize", requestEntity, Answer2.class).getBody();
 
+        if(answer2 == null || !answer2.getResult().getFaceIsFoundInImage() || answer2.getResult().getPersonId() == null) return new Answer2();
+
         answer2.getResult().setPersonData(peopleRepository.findById(answer2.getResult().getPersonId()));
 
         return answer2;
@@ -72,7 +73,7 @@ public class RESTController {
                 requestEntity, Answer.class)
                 .getBody();
 
-        if(!embedding.getResult().getIsFaceIsFoundInImage()) return;
+        if(!embedding.getResult().getFaceIsFoundInImage()) return;
 
         System.out.println(embedding.getResult().getFaceEmbedding());
 

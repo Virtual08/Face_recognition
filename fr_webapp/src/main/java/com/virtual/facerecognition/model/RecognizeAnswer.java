@@ -11,7 +11,7 @@ public class RecognizeAnswer {
 
     private Optional<People> personData;
 
-    public boolean getIsFaceIsFoundInImage() {
+    public boolean getFaceIsFoundInImage() {
         return faceIsFoundInImage;
     }
 
