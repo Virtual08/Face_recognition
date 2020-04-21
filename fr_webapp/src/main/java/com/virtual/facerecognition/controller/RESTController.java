@@ -45,9 +45,11 @@ public class RESTController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        return restTemplate.postForEntity(frLogicApiUrl + "/recognize",
-                requestEntity, Answer2.class)
-                .getBody();
+        Answer2 answer2 = restTemplate.postForEntity(frLogicApiUrl + "/recognize", requestEntity, Answer2.class).getBody();
+
+        answer2.getResult().setPersonData(peopleRepository.findById(answer2.getResult().getPersonId()));
+
+        return answer2;
     }
 
     @PostMapping("/addPerson")
