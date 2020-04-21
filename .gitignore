@@ -1,6 +1,6 @@
 # FR Frontend ignored files
 node_modules/
-/fr-frontend/build/
+build/
 
 # FR Logic ignored files
 
