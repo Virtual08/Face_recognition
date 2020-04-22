@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import people from './people.svg' ;  
+import people from './people.svg';
+import UploadButton from './UploadButton';
 
 class Recognition extends Component {
   constructor(props) {
@@ -12,18 +12,26 @@ class Recognition extends Component {
     }
   };
 
-  fileSelectedHandler = event => {
-    // let reader = new FileReader();
-    // reader.readAsDataURL();
+  fileUploadHandler = event => {
+    document.getElementById('recognitionUpload').click();
+    document.getElementById('recognitionUpload').onchange = () => {
+      var file = document.getElementById('recognitionUpload').files[0];
 
-    this.setState({
-      selectedFile: event.target.files[0],
-      imagePreviewUrl: URL.createObjectURL(event.target.files[0]),
-      result: null
-    })
+      this.setState({
+        selectedFile: file,
+        imagePreviewUrl: URL.createObjectURL(file),
+        result: null
+      });
+    }
+
+    // this.setState({
+    //   selectedFile: event.target.files[0],
+    //   imagePreviewUrl: URL.createObjectURL(event.target.files[0]),
+    //   result: null
+    // })
   }
 
-  fileUploadHandler = event => {
+  recognitionHandler = event => {
     var formData = new FormData();
     formData.append('file', this.state.selectedFile);
 
@@ -51,21 +59,11 @@ class Recognition extends Component {
             {this.state.result != null ?  
               <div>Лицо найдено: {this.state.result.faceIsFoundInImage.toString()} <br></br> Кто на фотографии: {this.state.result.personData.firstName}</div> :
              <div className="None"></div>}
-            <input
-              accept="image/*"
-              className="Test"
-              id="contained-button-file"
-              type="file"
-              onChange={this.fileSelectedHandler}
-            />
-            <label htmlFor="contained-button-file">
-              <Button variant="contained" color="primary" component="span">
-                Upload photo
-              </Button>
-            </label>
-            <Button variant="contained" color="primary" onClick={this.fileUploadHandler}>
+            <UploadButton id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
+            </UploadButton>
+            <button variant="contained" color="primary" onClick={this.recognitionHandler}>
                 Recognize
-            </Button>
+            </button>
           </div>
         </div>
       </div>

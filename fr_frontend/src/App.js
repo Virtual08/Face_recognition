@@ -3,10 +3,6 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import './App.css';
 import Recognition from './components/Recognition';
 import AddingPhoto from './components/AddingPhoto';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import logo from './logo.svg';
 
 class App extends Component {
@@ -46,14 +42,14 @@ class Menu extends Component {
     return (
       <div className="Menu">
         <Link to='/'>
-          <Button variant="outlined" color="primary">
+          <button variant="outlined" color="primary">
             Recognition
-          </Button>
+          </button>
         </Link>
         <Link to='/addingPhoto'>
-          <Button variant="outlined" color="primary">
+          <button variant="outlined" color="primary">
             Adding photo
-          </Button>
+          </button>
         </Link>
       </div>
     );
@@ -65,19 +61,19 @@ function Logo(props) {
 }
 
 function Exit(props) {
-  return  (
+  return  '';/*(
     <IconButton aria-label="delete" disabled color="primary">
       <ExitToAppIcon color="primary" />
     </IconButton>
-  );
+  );*/
 }
 
 function Key(props) {
-  return (
+  return '';/*(
     <IconButton aria-label="delete" disabled color="primary">
       <VpnKeyIcon color="primary" />
     </IconButton>
-  );
+  );*/
 }
 
 

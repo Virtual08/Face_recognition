@@ -100,5 +100,10 @@ public class RESTController {
             System.err.println(e);
         }
     }
+
+    @GetMapping("/getPeople")
+    public Iterable<People> getPeople() {
+        return peopleRepository.findAll();
+    }
 }
 
