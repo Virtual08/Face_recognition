@@ -32,18 +32,14 @@ public class RESTController {
 
     @PostMapping("/recognize")
     public Answer2 recognize(@RequestParam("file") MultipartFile file) throws IOException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         body.add("faces", facesRepository.findAll());
 
         body.add("file", file.getResource());
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, getHeaders(MediaType.MULTIPART_FORM_DATA));
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        Answer2 answer2 = restTemplate.postForEntity(frLogicApiUrl + "/recognize", requestEntity, Answer2.class).getBody();
+        Answer2 answer2 = new RestTemplate().postForEntity(frLogicApiUrl + "/recognize", requestEntity, Answer2.class).getBody();
 
         if(answer2 == null || !answer2.getResult().getFaceIsFoundInImage() || answer2.getResult().getPersonId() == null) return new Answer2();
 
@@ -59,15 +55,12 @@ public class RESTController {
 
         Answer embedding = null;
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         body.add("file", file.getResource());
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, getHeaders(MediaType.MULTIPART_FORM_DATA));
 
-        RestTemplate restTemplate = new RestTemplate();
-        embedding = restTemplate.postForEntity(frLogicApiUrl + "/getEmbedding",
+        embedding = new RestTemplate().postForEntity(frLogicApiUrl + "/getEmbedding",
                 requestEntity, Answer.class)
                 .getBody();
 
@@ -111,6 +104,12 @@ public class RESTController {
         peopleRepository.deleteById(personId);
 
         return peopleRepository.findAll();
+    }
+
+    private HttpHeaders getHeaders(MediaType mediaType) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(mediaType);
+        return headers;
     }
 }
 
