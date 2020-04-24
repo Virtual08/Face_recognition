@@ -5,9 +5,11 @@ import com.virtual.facerecognition.db.model.People;
 import com.virtual.facerecognition.db.repository.FacesRepository;
 import com.virtual.facerecognition.db.repository.PeopleRepository;
 import com.virtual.facerecognition.model.Answer;
-import com.virtual.facerecognition.model.Answer2;
+import com.virtual.facerecognition.model.EmbeddingAnswer;
+import com.virtual.facerecognition.model.RecognizeAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -31,7 +33,7 @@ public class RESTController {
     private String frLogicApiUrl;
 
     @PostMapping("/recognize")
-    public Answer2 recognize(@RequestParam("file") MultipartFile file) throws IOException {
+    public Answer recognize(@RequestParam("file") MultipartFile file) throws IOException {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         body.add("faces", facesRepository.findAll());
@@ -39,13 +41,13 @@ public class RESTController {
         body.add("file", file.getResource());
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, getHeaders(MediaType.MULTIPART_FORM_DATA));
 
-        Answer2 answer2 = new RestTemplate().postForEntity(frLogicApiUrl + "/recognize", requestEntity, Answer2.class).getBody();
+        Answer<RecognizeAnswer> answer = new RestTemplate().exchange(frLogicApiUrl + "/recognize",HttpMethod.POST ,requestEntity, new ParameterizedTypeReference<Answer<RecognizeAnswer>>(){}).getBody();
 
-        if(answer2 == null || !answer2.getResult().getFaceIsFoundInImage() || answer2.getResult().getPersonId() == null) return new Answer2();
+        if(!answer.getResult().getFaceIsFoundInImage() || answer.getResult().getPersonId() == null) return new Answer();
 
-        answer2.getResult().setPersonData(peopleRepository.findById(answer2.getResult().getPersonId()));
+        answer.getResult().setPersonData(peopleRepository.findById(answer.getResult().getPersonId()));
 
-        return answer2;
+        return answer;
     }
 
     @PostMapping("/addPerson")
@@ -53,16 +55,14 @@ public class RESTController {
                                       @RequestParam String lastName, @RequestParam(required = false) Integer age,
                                       @RequestParam(required = false) String externalId, @RequestParam MultipartFile file) {
 
-        Answer embedding = null;
+        Answer<EmbeddingAnswer> embedding = null;
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         body.add("file", file.getResource());
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, getHeaders(MediaType.MULTIPART_FORM_DATA));
 
-        embedding = new RestTemplate().postForEntity(frLogicApiUrl + "/getEmbedding",
-                requestEntity, Answer.class)
-                .getBody();
+        embedding = new RestTemplate().exchange(frLogicApiUrl + "/getEmbedding", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Answer<EmbeddingAnswer>>(){}).getBody();
 
         if(!embedding.getResult().getFaceIsFoundInImage()) return null;
 

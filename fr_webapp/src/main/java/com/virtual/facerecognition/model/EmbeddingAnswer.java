@@ -1,6 +1,5 @@
 package com.virtual.facerecognition.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmbeddingAnswer {

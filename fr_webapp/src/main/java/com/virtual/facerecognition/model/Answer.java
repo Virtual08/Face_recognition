@@ -1,13 +1,13 @@
 package com.virtual.facerecognition.model;
 
-public class Answer {
-    private EmbeddingAnswer result;
+public class Answer<T> {
+    private T result;
 
-    public EmbeddingAnswer getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(EmbeddingAnswer result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }
