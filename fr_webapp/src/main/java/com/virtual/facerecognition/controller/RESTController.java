@@ -108,8 +108,8 @@ public class RESTController {
         return peopleRepository.findAll();
     }
 
-    @DeleteMapping("/deletePerson")
-    public Iterable<People> deletePerson(Integer personId) {
+    @DeleteMapping("/deletePerson/{personId}")
+    public Iterable<People> deletePerson(@PathVariable Integer personId) {
         peopleRepository.deleteById(personId);
 
         return peopleRepository.findAll();

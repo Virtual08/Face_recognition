@@ -3,7 +3,7 @@ import UploadButton from './UploadButton';
 import InputText from './InputText';
 import StickyHeadTable from './Table';
 
-class AddingPhoto extends Component {
+class AddPerson extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,9 +14,9 @@ class AddingPhoto extends Component {
   };
 
   fileUploadHandler = event => {
-    document.getElementById('addingPhotoUpload').click();
-    document.getElementById('addingPhotoUpload').onchange = () => {
-      var files = document.getElementById('addingPhotoUpload').files;
+    document.getElementById('uploadPhoto').click();
+    document.getElementById('uploadPhoto').onchange = () => {
+      var files = document.getElementById('uploadPhoto').files;
 
       if (files.length > 0) {
         this.setState({
@@ -89,12 +89,8 @@ class AddingPhoto extends Component {
   };
 
   clickOnDeleteHandle = data => {
-    var formData = new FormData();
-    formData.append('personId', data.personId);
-
-    fetch("http://localhost:8080/deletePerson", {
-      method: 'DELETE',
-      body: formData
+    fetch("http://localhost:8080/deletePerson/" + data.personId, {
+      method: 'DELETE'
     })
       .then(response => response.json())
       .then(
@@ -113,7 +109,7 @@ class AddingPhoto extends Component {
 
   render() {
     return (
-      <div className="AddingPhoto">
+      <div className="AddPerson">
         <div className="content">
           <div className="people">
             <StickyHeadTable data={this.state.people} onClick={this.clickOnDeleteHandle} />
@@ -134,7 +130,7 @@ class AddingPhoto extends Component {
             <div>
               <InputText value="External id" type="text" name="externalId" onChange={this.textUpdateHandler}></InputText>
             </div>
-            <UploadButton id="addingPhotoUpload" value="Upload photo" onClick={this.fileUploadHandler}>
+            <UploadButton id="uploadPhoto" value="Upload photo" onClick={this.fileUploadHandler}>
             </UploadButton>
             <button onClick={this.addPersonHandler}>
               Add person
@@ -146,4 +142,4 @@ class AddingPhoto extends Component {
   }
 }
 
-export default AddingPhoto;
+export default AddPerson;

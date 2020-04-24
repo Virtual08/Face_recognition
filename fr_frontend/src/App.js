@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import './App.css';
 import Recognition from './components/Recognition';
-import AddingPhoto from './components/AddingPhoto';
+import AddPerson from './components/AddPerson';
 import logo from './logo.svg';
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
           <Menu />
           <Switch>
             <Route exact path="/" component={Recognition} />
-            <Route path="/addingPhoto" component={AddingPhoto} />
+            <Route path="/addPerson" component={AddPerson} />
           </Switch>
         </Router>
       </div>
@@ -38,12 +38,12 @@ class Menu extends Component {
     return (
       <div className="Menu">
         <Link to='/'>
-          <button variant="outlined" color="primary">
+          <button>
             Recognition
           </button>
         </Link>
-        <Link to='/addingPhoto'>
-          <button variant="outlined" color="primary">
+        <Link to='/addPerson'>
+          <button>
             Adding photo
           </button>
         </Link>
