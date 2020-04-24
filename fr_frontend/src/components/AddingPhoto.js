@@ -10,24 +10,21 @@ class AddingPhoto extends Component {
       selectedFile: null,
       people: []
     }
+    this.getPeople();
   };
 
   fileUploadHandler = event => {
     document.getElementById('addingPhotoUpload').click();
     document.getElementById('addingPhotoUpload').onchange = () => {
-      var file = document.getElementById('addingPhotoUpload').files[0];
+      var files = document.getElementById('addingPhotoUpload').files;
 
-      this.setState({
-        selectedFile: file,
-      });
+      if (files.length > 0) {
+        this.setState({
+          selectedFile: files[0],
+        });
+      }
     }
-
-    // this.setState({
-    //   selectedFile: event.target.files[0],
-    //   imagePreviewUrl: URL.createObjectURL(event.target.files[0]),
-    //   result: null
-    // })
-  }
+  };
 
   textUpdateHandler = event => {
     var name = event.target.name;
@@ -36,8 +33,8 @@ class AddingPhoto extends Component {
     this.setState({
       [name]: value
     });
-  }
-    
+  };
+
   addPersonHandler = event => {
     var formData = new FormData();
     formData.append('file', this.state.selectedFile);
@@ -47,21 +44,24 @@ class AddingPhoto extends Component {
     formData.append('age', this.state.age);
     formData.append('externalId', this.state.externalId);
 
-    console.log(this.state.selectedFile);
-    console.log(formData.getAll('file'));
-
     fetch('http://localhost:8080/addPerson', {
       method: 'POST',
       headers: {
-          // 'Content-Type': 'multipart/form-data'
+        // 'Content-Type': 'multipart/form-data'
       },
       body: formData
     })
       .then(response => response.json())
-      .then(result => {this.setState(result)});
-  }
+      .then(result => {
+        this.setState({
+          people: result
+        });
+      });
 
-  componentDidMount() {
+    this.getPeople();
+  };
+
+  getPeople() {
     fetch("http://localhost:8080/getPeople")
       .then(response => response.json())
       .then(
@@ -76,43 +76,74 @@ class AddingPhoto extends Component {
           });
         }
       )
-    }
-  
-    render() {
-      return (
-        <div className="AddingPhoto">
-          <div className="content">
-            <div className="people">
-              <StickyHeadTable data={this.state.people} />
+
+
+    // try {
+    //   const response = await fetch("http://localhost:8080/getPeople");
+    //   const result = await response.json();
+    //   return result;
+    // } catch (error) {
+    //   console.error('Ошибка:', error);
+    //   return [];
+    // }
+  };
+
+  clickOnDeleteHandle = data => {
+    var formData = new FormData();
+    formData.append('personId', data.personId);
+
+    fetch("http://localhost:8080/deletePerson", {
+      method: 'DELETE',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(
+        result => {
+          this.setState({
+            people: result,
+          });
+        },
+        error => {
+          this.setState({
+            error
+          });
+        }
+      );
+  };
+
+  render() {
+    return (
+      <div className="AddingPhoto">
+        <div className="content">
+          <div className="people">
+            <StickyHeadTable data={this.state.people} onClick={this.clickOnDeleteHandle} />
+          </div>
+          <div className="recognitionData" onClick={this.loadDataAboutPeople}>
+            <div>
+              <InputText value="First name" type="text" name="firstName" onChange={this.textUpdateHandler}></InputText>
             </div>
-            <div className="recognitionData" onClick={this.loadDataAboutPeople}>
-            <form>
-              <div>
-                <InputText value="First name" type="text"  name="firstName" onChange={this.textUpdateHandler}></InputText>
-              </div>
-              <div>
-                <InputText value="Last name" type="text"  name="lastName" onChange={this.textUpdateHandler}></InputText>
-              </div>
-              <div>
-                <InputText value="Middle name" type="text"  name="middleName" onChange={this.textUpdateHandler}></InputText>
-              </div>
-              <div>
-                <InputText value="Age" type="text"  name="age" onChange={this.textUpdateHandler}></InputText>
-              </div>
-              <div>
-                <InputText value="External id" type="text"  name="externalId" onChange={this.textUpdateHandler}></InputText>
-              </div>
-              <UploadButton id="addingPhotoUpload" value="Upload photo" onClick={this.fileUploadHandler}>
-              </UploadButton>
-              <button variant="contained" color="primary" onClick={this.addPersonHandler}>
-                  Add person
-              </button>
-            </form>
+            <div>
+              <InputText value="Last name" type="text" name="lastName" onChange={this.textUpdateHandler}></InputText>
             </div>
+            <div>
+              <InputText value="Middle name" type="text" name="middleName" onChange={this.textUpdateHandler}></InputText>
+            </div>
+            <div>
+              <InputText value="Age" type="text" name="age" onChange={this.textUpdateHandler}></InputText>
+            </div>
+            <div>
+              <InputText value="External id" type="text" name="externalId" onChange={this.textUpdateHandler}></InputText>
+            </div>
+            <UploadButton id="addingPhotoUpload" value="Upload photo" onClick={this.fileUploadHandler}>
+            </UploadButton>
+            <button onClick={this.addPersonHandler}>
+              Add person
+            </button>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 }
 
 export default AddingPhoto;

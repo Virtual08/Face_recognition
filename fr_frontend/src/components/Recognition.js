@@ -15,28 +15,24 @@ class Recognition extends Component {
   fileUploadHandler = event => {
     document.getElementById('recognitionUpload').click();
     document.getElementById('recognitionUpload').onchange = () => {
-      var file = document.getElementById('recognitionUpload').files[0];
 
-      this.setState({
-        selectedFile: file,
-        imagePreviewUrl: URL.createObjectURL(file),
-        result: null
-      });
+      var files = document.getElementById('recognitionUpload').files;
+
+      if(files.length > 0) {
+        this.setState({
+          selectedFile: files[0],
+          imagePreviewUrl: URL.createObjectURL(files[0]),
+          result: null
+        });
+      }
     }
-
-    // this.setState({
-    //   selectedFile: event.target.files[0],
-    //   imagePreviewUrl: URL.createObjectURL(event.target.files[0]),
-    //   result: null
-    // })
   }
 
   recognitionHandler = event => {
+    if(this.state.selectedFile == null) return;
+
     var formData = new FormData();
     formData.append('file', this.state.selectedFile);
-
-    console.log(this.state.selectedFile);
-    console.log(formData.getAll('file'));
 
     fetch('http://localhost:8080/recognize', {
       method: 'POST',
@@ -56,12 +52,12 @@ class Recognition extends Component {
         <div className="content">
           <div className="people"><img src={this.state.imagePreviewUrl} alt="People" /></div>
           <div className="recognitionData">
-            {this.state.result != null ?  
+            {this.state.result != null ? 
               <div>Лицо найдено: {this.state.result.faceIsFoundInImage.toString()} <br></br> Кто на фотографии: {this.state.result.personData.firstName}</div> :
              <div className="None"></div>}
             <UploadButton id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
             </UploadButton>
-            <button variant="contained" color="primary" onClick={this.recognitionHandler}>
+            <button onClick={this.recognitionHandler}>
                 Recognize
             </button>
           </div>

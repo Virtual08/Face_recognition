@@ -38,7 +38,7 @@ const columns = [
     label: 'Action',
     minWidth: '10%',
     align: 'center',
-    format: (value) => <div id="delete">Delete</div>,
+    format: (value) => <div id="delete" onClick={this}>Delete</div>,
   }
 ];
 
@@ -91,7 +91,7 @@ function StickyHeadTable(props) {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {column.format && (typeof value === "number" || typeof value === "undefined") ? column.format(value) : value}
+                        {typeof value === "undefined" ? <div id="delete" onClick={() => {props.onClick(row)}}>Delete</div> : value}
                       </TableCell>
                     );
                   })}

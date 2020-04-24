@@ -54,9 +54,9 @@ public class RESTController {
     }
 
     @PostMapping("/addPerson")
-    public void addPerson(@RequestParam("firstName") String firstName, @RequestParam(value = "middleName", required = false) String middleName,
-                          @RequestParam("lastName") String lastName, @RequestParam(value = "age", required = false) Integer age,
-                          @RequestParam(value = "externalId", required = false) String externalId, @RequestParam("file") MultipartFile file) {
+    public Iterable<People> addPerson(@RequestParam("firstName") String firstName, @RequestParam(value = "middleName", required = false) String middleName,
+                                      @RequestParam("lastName") String lastName, @RequestParam(value = "age", required = false) Integer age,
+                                      @RequestParam(value = "externalId", required = false) String externalId, @RequestParam("file") MultipartFile file) {
 
         Answer embedding = null;
 
@@ -73,7 +73,7 @@ public class RESTController {
                 requestEntity, Answer.class)
                 .getBody();
 
-        if(!embedding.getResult().getFaceIsFoundInImage()) return;
+        if(!embedding.getResult().getFaceIsFoundInImage()) return null;
 
         System.out.println(embedding.getResult().getFaceEmbedding());
 
@@ -99,10 +99,19 @@ public class RESTController {
             peopleRepository.delete(people);
             System.err.println(e);
         }
+
+        return peopleRepository.findAll();
     }
 
     @GetMapping("/getPeople")
     public Iterable<People> getPeople() {
+        return peopleRepository.findAll();
+    }
+
+    @DeleteMapping("/deletePerson")
+    public Iterable<People> deletePerson(Integer personId) {
+        peopleRepository.deleteById(personId);
+
         return peopleRepository.findAll();
     }
 }
