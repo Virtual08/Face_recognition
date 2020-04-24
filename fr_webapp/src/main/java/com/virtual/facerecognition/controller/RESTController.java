@@ -43,7 +43,7 @@ public class RESTController {
 
         Answer<RecognizeAnswer> answer = new RestTemplate().exchange(frLogicApiUrl + "/recognize",HttpMethod.POST ,requestEntity, new ParameterizedTypeReference<Answer<RecognizeAnswer>>(){}).getBody();
 
-        if(!answer.getResult().getFaceIsFoundInImage() || answer.getResult().getPersonId() == null) return new Answer();
+        if(!answer.getResult().getFaceIsFoundInImage() || answer.getResult().getPersonId() == null) return answer;
 
         answer.getResult().setPersonData(peopleRepository.findById(answer.getResult().getPersonId()));
 

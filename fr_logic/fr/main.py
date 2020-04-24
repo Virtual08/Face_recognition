@@ -6,9 +6,7 @@ from flask import Flask, jsonify, request
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-
 app = Flask(__name__)
-
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -16,20 +14,19 @@ def allowed_file(filename):
 
 
 def getRecognitionResult(file_stream, faces):
-    face_found = False
+    result = { 
+        "result": {
+            "faceIsFoundInImage": False,
+            "personId": "null"
+        }
+    }
 
     unknown_face_encodings = getFaceEncoding(file_stream)
 
     if len(unknown_face_encodings) == 0:
-        result = { 
-            "result": {
-                "faceIsFoundInImage": face_found,
-                "personId": "null"
-            }
-        }
         return result
 
-    face_found = True
+    result['result']['faceIsFoundInImage'] = True
 
     known_face_encodings = [json.loads(face["embedding"]) for face in faces]
 
@@ -38,23 +35,13 @@ def getRecognitionResult(file_stream, faces):
     face_distances = face_recognition.face_distance(known_face_encodings, unknown_face_encodings[0])
 
     if np.min(face_distances) > 0.6: ### Just 0.6. Without some kind logic. I think it's better to use face_compare
-        result = { 
-            "result": {
-                "faceIsFoundInImage": face_found,
-                "personId": "null"
-            }
-        }
         return result
 
     bestMatchIndex = np.argmin(face_distances)
     personId = faces[bestMatchIndex]["personId"]
 
-    result = { 
-        "result": {
-            "faceIsFoundInImage": face_found,
-            "personId": personId
-        }
-    }
+    result['result']['personId'] = personId
+
     return jsonify(result)
 
 def getFaceEncoding(file_stream):
@@ -65,36 +52,27 @@ def returnNull():
     result = {
         "result": 'null'
     }
-
     return jsonify(result)
 
 def getEmbedding(file_stream):
+    result = { 
+        "result": {
+            "faceIsFoundInImage": False,
+            "faceEmbedding": 'null'
+        }
+    }
+
     unknown_face_encodings = getFaceEncoding(file_stream)
 
     if len(unknown_face_encodings) == 0:
-        result = { 
-            "result": {
-                "faceIsFoundInImage": False,
-                "faceEmbedding": 'null'
-            }
-        }
         return jsonify(result)
 
-    if len(unknown_face_encodings) > 1: ### TODO Answer is incorrect
-        result = { 
-            "result": {
-                "faceIsFoundInImage": False,
-                "faceEmbedding": 'null'
-            }
-        }
+    if len(unknown_face_encodings) > 1:
+        result['result']['faceIsFoundInImage'] = True
         return jsonify(result)
 
-    result = { 
-        "result": {
-            "faceIsFoundInImage": True,
-            "faceEmbedding": unknown_face_encodings[0].tolist()
-        }
-    }
+    result['result']['faceIsFoundInImage'] = True
+    result['result']['faceEmbedding'] = unknown_face_encodings[0].tolist()
 
     return jsonify(result)
 
@@ -110,7 +88,6 @@ def recognize():
         return returnNull()
 
     faces = json.loads(request.values['faces'])
-    # app.logger.info(faces)
 
     if len(faces) == 0:
         return returnNull()
