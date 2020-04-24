@@ -54,9 +54,9 @@ public class RESTController {
     }
 
     @PostMapping("/addPerson")
-    public Iterable<People> addPerson(@RequestParam("firstName") String firstName, @RequestParam(value = "middleName", required = false) String middleName,
-                                      @RequestParam("lastName") String lastName, @RequestParam(value = "age", required = false) Integer age,
-                                      @RequestParam(value = "externalId", required = false) String externalId, @RequestParam("file") MultipartFile file) {
+    public Iterable<People> addPerson(@RequestParam String firstName, @RequestParam(required = false) String middleName,
+                                      @RequestParam String lastName, @RequestParam(required = false) Integer age,
+                                      @RequestParam(required = false) String externalId, @RequestParam MultipartFile file) {
 
         Answer embedding = null;
 
