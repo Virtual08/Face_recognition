@@ -13,10 +13,6 @@ class App extends Component {
     }
   };
 
-  loadAdding = () => {
-    this.setState({page: 'adding'});
-  }
-
   render() {
     return (
       <div className="App">

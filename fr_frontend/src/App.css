@@ -69,7 +69,7 @@ html, body ,#root, .App {
 
 }
 
-.recognitionData {
+.content {
   color: black;
 }
 
@@ -105,4 +105,9 @@ input.uploadInput {
 
 .recognitionData button, .recognitionData label {
   margin: 5% 0%;
+}
+
+
+#delete {
+  background-color: #008AFF;
 }

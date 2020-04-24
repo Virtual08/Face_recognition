@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import UploadButton from './UploadButton';
 import InputText from './InputText';
+import StickyHeadTable from './Table';
 
 class AddingPhoto extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedFile: null,
-      result: null
+      people: []
     }
   };
 
@@ -59,13 +60,32 @@ class AddingPhoto extends Component {
       .then(response => response.json())
       .then(result => {this.setState(result)});
   }
+
+  componentDidMount() {
+    fetch("http://localhost:8080/getPeople")
+      .then(response => response.json())
+      .then(
+        result => {
+          this.setState({
+            people: result
+          });
+        },
+        error => {
+          this.setState({
+            error
+          });
+        }
+      )
+    }
   
     render() {
       return (
         <div className="AddingPhoto">
           <div className="content">
-            <div className="people"></div>
-            <div className="recognitionData">
+            <div className="people">
+              <StickyHeadTable data={this.state.people} />
+            </div>
+            <div className="recognitionData" onClick={this.loadDataAboutPeople}>
             <form>
               <div>
                 <InputText value="First name" type="text"  name="firstName" onChange={this.textUpdateHandler}></InputText>
