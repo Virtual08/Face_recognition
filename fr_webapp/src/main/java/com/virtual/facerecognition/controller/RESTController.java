@@ -33,7 +33,6 @@ public class RESTController {
     @PostMapping("/recognize")
     public Answer2 recognize(@RequestParam("file") MultipartFile file) throws IOException {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "multipart/form-data");
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
@@ -61,7 +60,6 @@ public class RESTController {
         Answer embedding = null;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "multipart/form-data");
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
