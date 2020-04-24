@@ -55,14 +55,12 @@ public class RESTController {
                                       @RequestParam String lastName, @RequestParam(required = false) Integer age,
                                       @RequestParam(required = false) String externalId, @RequestParam MultipartFile file) {
 
-        Answer<EmbeddingAnswer> embedding = null;
-
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         body.add("file", file.getResource());
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, getHeaders(MediaType.MULTIPART_FORM_DATA));
 
-        embedding = new RestTemplate().exchange(frLogicApiUrl + "/getEmbedding", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Answer<EmbeddingAnswer>>(){}).getBody();
+        Answer<EmbeddingAnswer> embedding = new RestTemplate().exchange(frLogicApiUrl + "/getEmbedding", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Answer<EmbeddingAnswer>>(){}).getBody();
 
         if(!embedding.getResult().getFaceIsFoundInImage()) return null;
 
