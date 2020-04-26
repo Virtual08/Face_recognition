@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fr-logic
+  labels:
+    app: fr-logic
+spec:
+  selector:
+    matchLabels:
+      app: fr-logic
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: fr-logic
+    spec:
+      containers:
+        - image: virtual8/face-recognition-logic
+          imagePullPolicy: Always
+          name: fr-logic
+          ports:
+            - containerPort: 80
