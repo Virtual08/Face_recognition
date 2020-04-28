@@ -18,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -64,7 +67,6 @@ public class RESTController {
 
         if(!embedding.getResult().getFaceIsFoundInImage()) return null;
 
-        System.out.println(embedding.getResult().getFaceEmbedding());
 
         People people = new People();
         people.setFirstName(firstName);
@@ -76,18 +78,12 @@ public class RESTController {
         if(externalId != null)
             people.setExternalId(externalId);
 
+        Faces face = new Faces();
+        face.setEmbedding(embedding.getResult().getFaceEmbedding().toString());
+
+        people.setFaces(face);
+
         peopleRepository.save(people);
-
-        try {
-            Faces faces = new Faces();
-            faces.setPersonId(people.getPersonId());
-            faces.setEmbedding(embedding.getResult().getFaceEmbedding().toString());
-
-            facesRepository.save(faces);
-        } catch (Exception e) {
-            peopleRepository.delete(people);
-            System.err.println(e);
-        }
 
         return peopleRepository.findAll();
     }
