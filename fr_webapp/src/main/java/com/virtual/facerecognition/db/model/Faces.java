@@ -1,11 +1,10 @@
 package com.virtual.facerecognition.db.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Faces {
+public class Faces implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +13,16 @@ public class Faces {
     @Column(length=3000, nullable = false)
     private String embedding;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "personId", nullable = false)
-    @JsonManagedReference
-    private People people;
+    @Column
+    private Integer personId;
+
+    public Integer getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
 
     public Integer getId() {
         return id;
@@ -34,13 +39,5 @@ public class Faces {
 
     public void setEmbedding(String embedding) {
         this.embedding = embedding;
-    }
-
-    public People getPeople() {
-        return people;
-    }
-
-    public void setPeople(People people) {
-        this.people = people;
     }
 }
