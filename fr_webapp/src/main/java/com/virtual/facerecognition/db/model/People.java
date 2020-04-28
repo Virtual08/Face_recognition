@@ -1,7 +1,12 @@
 package com.virtual.facerecognition.db.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,8 +31,9 @@ public class People {
     @Column
     private String externalId;
 
-    @OneToMany(/*mappedBy = "personId",*/ cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Faces> faces;
+    @OneToMany(mappedBy = "people", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Faces> faces = new ArrayList<>();
 
     public Integer getPersonId() {
         return personId;
@@ -77,11 +83,14 @@ public class People {
         this.externalId = externalId;
     }
 
-    public Set<Faces> getFaces() {
+    public List<Faces> getFaces() {
         return faces;
     }
 
-    public void setFaces(Set<Faces> faces) {
-        this.faces = faces;
+    public void setFaces(Faces face) {
+//        Set<Faces> _faces = new HashSet<>();
+//        _faces.add(face);
+        this.faces.add(face);
+        face.setPeople(this);
     }
 }

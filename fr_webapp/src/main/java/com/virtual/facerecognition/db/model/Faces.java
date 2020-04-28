@@ -1,5 +1,7 @@
 package com.virtual.facerecognition.db.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +15,8 @@ public class Faces {
     private String embedding;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "personId", referencedColumnName = "personId")
+    @JoinColumn(name = "personId", nullable = false)
+    @JsonManagedReference
     private People people;
 
     public Integer getId() {
