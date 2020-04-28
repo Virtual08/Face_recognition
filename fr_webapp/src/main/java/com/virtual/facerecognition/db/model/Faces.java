@@ -1,9 +1,6 @@
 package com.virtual.facerecognition.db.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,6 +13,7 @@ public class Faces {
     @NotNull
     private Integer personId;
 
+    @Column(length=3000)
     @NotBlank
     private String embedding;
 
