@@ -1,23 +1,20 @@
 package com.virtual.facerecognition.db.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Faces {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     private Integer id;
 
-    @Column(nullable = false)
-    @NotNull
-    private Integer personId;
-
     @Column(length=3000, nullable = false)
-    @NotBlank
     private String embedding;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personId", referencedColumnName = "personId")
+    private People people;
 
     public Integer getId() {
         return id;
@@ -27,13 +24,6 @@ public class Faces {
         this.id = id;
     }
 
-    public Integer getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
-    }
 
     public String getEmbedding() {
         return embedding;
@@ -41,5 +31,13 @@ public class Faces {
 
     public void setEmbedding(String embedding) {
         this.embedding = embedding;
+    }
+
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People people) {
+        this.people = people;
     }
 }
