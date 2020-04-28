@@ -8,12 +8,14 @@ import javax.validation.constraints.NotNull;
 public class Faces {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Integer id;
 
+    @Column(nullable = false)
     @NotNull
     private Integer personId;
 
-    @Column(length=3000)
+    @Column(length=3000, nullable = false)
     @NotBlank
     private String embedding;
 
