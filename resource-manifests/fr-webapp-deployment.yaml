@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fr-webapp
+  labels:
+    app: fr-webapp
+spec:
+  selector:
+    matchLabels:
+      app: fr-webapp
+  replicas: 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: fr-webapp
+    spec:
+      containers:
+      - image: virtual8/face-recognition-webapp
+        imagePullPolicy: Always
+        name: fr-webapp
+        env:
+          - name: fr.logic.api.url
+            value: "http://fr-logic"
+          - name: spring.datasource.url
+            value: "jdbc:mysql://mysql/devdb"
+          - name: spring.jpa.hibernate.ddl-auto
+            value: "create" 
+          - name: spring.datasource.username
+            value: "dbuser"
+          - name: spring.datasource.password
+            value: "dbpassword"
+        ports:
+          - containerPort: 8080
