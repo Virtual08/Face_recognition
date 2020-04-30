@@ -24,14 +24,28 @@ def saveFile(file):
     return jsonify(result)
 
 def loadFile(fileName):
+    # result = { 
+    #     "result": {
+    #         "status": False,
+    #         "image": None
+    #     }
+    # }
+
+    return send_from_directory(os.path.join(app.root_path, uploadFolder), fileName)
+    # result['result']['image'] = send_from_directory(os.path.join(app.root_path, uploadFolder), fileName)
+
+    # result['result']['status'] = True
+
+    # return jsonify(result)
+
+def deleteFile(fineName):
     result = { 
         "result": {
-            "status": False,
-            "image": None
+            "status": False
         }
     }
 
-    result['result']['image'] = send_from_directory(os.path.join(app.root_path, uploadFolder), fileName)
+    os.remove(os.path.join(app.root_path, uploadFolder, fineName))
 
     result['result']['status'] = True
 
@@ -62,6 +76,13 @@ def save():
 def load(fileName):
     if len(fileName) > 0:
         return loadFile(fileName)
+
+    return returnNull()
+
+@app.route('/delete/<fileName>', methods=['GET'])
+def delete(fileName):
+    if len(fileName) > 0:
+        return deleteFile(fileName)
 
     return returnNull()
 
