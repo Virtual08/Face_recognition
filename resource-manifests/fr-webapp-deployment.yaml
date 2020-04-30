@@ -25,12 +25,12 @@ spec:
         imagePullPolicy: Always
         name: fr-webapp
         env:
-          - name: fr.logic.api.url
+          - name: FR_LOGIC_API_URL
             value: "http://fr-logic"
           - name: spring.datasource.url
             value: "jdbc:mysql://mysql/devdb"
           - name: spring.jpa.hibernate.ddl-auto
-            value: "create" 
+            value: "none" 
           - name: spring.datasource.username
             value: "dbuser"
           - name: spring.datasource.password
