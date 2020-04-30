@@ -1,8 +1,10 @@
 package com.virtual.facerecognition.controller;
 
 import com.virtual.facerecognition.db.model.Faces;
+import com.virtual.facerecognition.db.model.Images;
 import com.virtual.facerecognition.db.model.People;
 import com.virtual.facerecognition.db.repository.FacesRepository;
+import com.virtual.facerecognition.db.repository.ImagesRepository;
 import com.virtual.facerecognition.db.repository.PeopleRepository;
 import com.virtual.facerecognition.model.Answer;
 import com.virtual.facerecognition.model.EmbeddingAnswer;
@@ -32,6 +34,9 @@ public class RESTController {
 
     @Autowired
     private FacesRepository facesRepository;
+
+    @Autowired
+    private ImagesRepository imagesRepository;
 
     @Value("${fr.logic.api.url}")
     private String frLogicApiUrl;
@@ -92,8 +97,11 @@ public class RESTController {
 
         Faces face = new Faces();
         face.setEmbedding(embedding.getResult().getFaceEmbedding().toString());
-
         people.setFaces(face);
+
+        Images image = new Images();
+        image.setFileName(file.getOriginalFilename());
+        people.setImages(image);
 
         peopleRepository.save(people);
 
