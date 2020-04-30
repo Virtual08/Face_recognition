@@ -44,7 +44,7 @@ class AddPerson extends Component {
     formData.append('age', this.state.age);
     formData.append('externalId', this.state.externalId);
 
-    fetch('http://localhost:8080/addPerson', {
+    fetch('http://172.17.184.34:32710/addPerson', {
       method: 'POST',
       headers: {
         // 'Content-Type': 'multipart/form-data'
@@ -62,7 +62,7 @@ class AddPerson extends Component {
   };
 
   getPeople() {
-    fetch("http://localhost:8080/getPeople")
+    fetch("http://172.17.184.34:32710/getPeople")
       .then(response => response.json())
       .then(
         result => {
@@ -76,20 +76,10 @@ class AddPerson extends Component {
           });
         }
       )
-
-
-    // try {
-    //   const response = await fetch("http://localhost:8080/getPeople");
-    //   const result = await response.json();
-    //   return result;
-    // } catch (error) {
-    //   console.error('Ошибка:', error);
-    //   return [];
-    // }
   };
 
   clickOnDeleteHandle = data => {
-    fetch("http://localhost:8080/deletePerson/" + data.personId, {
+    fetch("http://172.17.184.34:32710/deletePerson/" + data.personId, {
       method: 'DELETE'
     })
       .then(response => response.json())
