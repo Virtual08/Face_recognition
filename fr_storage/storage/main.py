@@ -79,7 +79,7 @@ def load(fileName):
 
     return returnNull()
 
-@app.route('/delete/<fileName>', methods=['GET'])
+@app.route('/delete/<fileName>', methods=['DELETE'])
 def delete(fileName):
     if len(fileName) > 0:
         return deleteFile(fileName)
