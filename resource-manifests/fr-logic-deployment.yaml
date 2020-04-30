@@ -25,4 +25,4 @@ spec:
           imagePullPolicy: Always
           name: fr-logic
           ports:
-            - containerPort: 80
+            - containerPort: 5000
