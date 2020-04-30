@@ -31,6 +31,10 @@ public class People implements Serializable {
     @JoinColumn(name = "personId")
     private List<Faces> faces = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "personId")
+    private List<Images> images = new ArrayList<>();
+
     public Integer getPersonId() {
         return personId;
     }
@@ -85,5 +89,13 @@ public class People implements Serializable {
 
     public void setFaces(Faces face) {
         this.faces.add(face);
+    }
+
+    public List<Images> getImages() {
+        return images;
+    }
+
+    public void setImages(Images image) {
+        this.images.add(image);
     }
 }
