@@ -7,6 +7,7 @@ import com.virtual.facerecognition.db.repository.PeopleRepository;
 import com.virtual.facerecognition.model.Answer;
 import com.virtual.facerecognition.model.EmbeddingAnswer;
 import com.virtual.facerecognition.model.RecognizeAnswer;
+import com.virtual.facerecognition.model.StatusAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,6 +36,9 @@ public class RESTController {
     @Value("${fr.logic.api.url}")
     private String frLogicApiUrl;
 
+    @Value("${fr.storage.api.url}")
+    private String frStorageApiUrl;
+
     @PostMapping("/recognize")
     public Answer recognize(@RequestParam("file") MultipartFile file) throws IOException {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -57,6 +61,14 @@ public class RESTController {
     public Iterable<People> addPerson(@RequestParam String firstName, @RequestParam(required = false) String middleName,
                                       @RequestParam String lastName, @RequestParam(required = false) Integer age,
                                       @RequestParam(required = false) String externalId, @RequestParam MultipartFile file) {
+        MultiValueMap<String, Object> bodyStorage = new LinkedMultiValueMap<>();
+
+        bodyStorage.add("file", file.getResource());
+        HttpEntity<MultiValueMap<String, Object>> requestEntityForStorage = new HttpEntity<>(bodyStorage, getHeaders(MediaType.MULTIPART_FORM_DATA));
+
+        Answer<StatusAnswer> status = new RestTemplate().exchange(frStorageApiUrl + "/save", HttpMethod.POST, requestEntityForStorage, new ParameterizedTypeReference<Answer<StatusAnswer>>(){}).getBody();
+
+        if(status.getResult() == null || !status.getResult().getStatus()) return null;
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
