@@ -13,7 +13,10 @@ import com.virtual.facerecognition.model.StatusAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +24,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -115,6 +115,16 @@ public class RESTController {
 
     @DeleteMapping("/deletePerson/{personId}")
     public Iterable<People> deletePerson(@PathVariable Integer personId) {
+        Iterable<Images> images = imagesRepository.findByPersonId(personId);
+
+        for (Images image:images) {
+            HttpEntity<MultiValueMap<String, Object>> requestEntityForStorage = new HttpEntity<>(new HttpHeaders());
+
+            Answer<StatusAnswer> status = new RestTemplate().exchange(frStorageApiUrl + "/delete/" + image.getFileName(), HttpMethod.DELETE, requestEntityForStorage, new ParameterizedTypeReference<Answer<StatusAnswer>>(){}).getBody();
+
+            if(!status.getResult().getStatus()) return null;
+        }
+
         peopleRepository.deleteById(personId);
 
         return peopleRepository.findAll();
