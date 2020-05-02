@@ -184,10 +184,6 @@ input.uploadInput {
   display: none;
 }
 
-#delete {
-  background-color: #008AFF;
-}
-
 .newPersonData {
   width: 38%;
   height: 85%;
@@ -234,4 +230,16 @@ input.uploadInput {
   align-items: center;
   padding-left: 3%;
   background: transparent;
+}
+
+.deleteButton {
+  background: #F5264A;
+  border-radius: 2px;
+  height: 30px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  place-content: center;
+  cursor: pointer;
+  margin: auto;
 }

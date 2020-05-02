@@ -15,7 +15,6 @@ const columns = [
     label: 'Image',
     minWidth: '10%',
     align: 'center',
-    // format: (value) => <img class="image" src={} />,
   },
   { id: 'lastName', label: 'Last name', minWidth: '10%', align: 'center'},
   { id: 'firstName', label: 'First name', minWidth: '10%', align: 'center'},
@@ -61,21 +60,10 @@ const useStyles = makeStyles({
 
 function StickyHeadTable(props) {
   const classes = useStyles();
-//   const [page, setPage] = React.useState(0);
-//   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-//   const handleChangePage = (event, newPage) => {
-//     setPage(newPage);
-//   };
-
-//   const handleChangeRowsPerPage = (event) => {
-//     setRowsPerPage(+event.target.value);
-//     setPage(0);
-//   };
 
   return (
-    <Paper className={classes.root} style={{ height: '100%' }}>
-      <TableContainer className={classes.container}>
+    <Paper className={classes.root} style={{ height: '100%', background: '#504F54' }}>
+      <TableContainer className={classes.container} style={{ borderRadius: '2px'}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -83,7 +71,7 @@ function StickyHeadTable(props) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth, background: '#202020', color: '#FFFFFF', fontFamily: 'Open Sans', border: 'none'}}
                 >
                   {column.label}
                 </TableCell>
@@ -91,15 +79,15 @@ function StickyHeadTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.data/*.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)*/.map((row) => {
+            {props.data.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.personId}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} align={column.align} style={row.personId % 2 == 0 ? {background: '#636268', color: '#FFFFFF', fontFamily: 'Open Sans', border: 'none'} : {background: '#FFFFFFF', color: '#FFFFFF', fontFamily: 'Open Sans', border: 'none'}}>
                         {typeof value === "undefined" ? 
-                                                      <div id="delete" onClick={() => {props.onClick(row)}}>Delete</div> : 
+                                                      <div className="deleteButton" onClick={() => {props.onClick(row)}}>Delete</div> : 
                                                       column.id == "image" ? 
                                                                           <img className="image" src={"data:image/jpg;base64, " + value} />  :
                                                                            value}
@@ -112,15 +100,6 @@ function StickyHeadTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={props.data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      /> */}
     </Paper>
   );
 }
