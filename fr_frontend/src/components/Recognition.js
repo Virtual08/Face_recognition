@@ -47,17 +47,38 @@ class Recognition extends Component {
   }
 
   render() {
+    var fullName;
+    var externalId;
+    var age;
+    var message;
+
+    if(this.state.result != null) {
+      if (this.state.result.personData != null) {
+        fullName = this.state.result.personData.lastName + " " + this.state.result.personData.firstName;
+
+        if(this.state.result.personData.middleName != null)
+          fullName += " " + this.state.result.personData.middleName;
+    
+        if (this.state.result.personData.age != null)
+          age = this.state.result.personData.age;
+    
+        if (this.state.result.personData.externalId != null)
+          externalId = this.state.result.personData.externalId;
+      } else {
+        message = this.state.result.faceIsFoundInImage ? "Данного человека в БД нет" : "Не удалось найти лицо";
+      }
+    }
+
     return (
       <div className="Recognition">
         <div className="loadedImage"><img src={this.state.imagePreviewUrl} alt="People" /></div>
         <div className="recognitionData">
           <div className="result">
-            <OutputText label="Full name"></OutputText>
-            <OutputText label="External id"></OutputText>
-            <OutputText label="Age"></OutputText>
-            <OutputText label="Message"></OutputText>
+            <OutputText label="Full name" id="fullName" value={fullName}></OutputText>
+            <OutputText label="External id" id="externalId" value={externalId}></OutputText>
+            <OutputText label="Age" id="age" value={age}></OutputText>
+            <OutputText label="Message" id="message" value={message}></OutputText>
           </div>
-          {/* <PersonData result={this.state.result} /> */}
           <div className="buttons">
             <UploadButton className="recognitionBtn" id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
             </UploadButton>
@@ -69,40 +90,6 @@ class Recognition extends Component {
       </div>
     );
   }
-}
-
-function PersonData(props) {
-  if(props.result == null) return (<div className="None"></div>);
-
-  var faceIsDetected = <div>Лицо найдено: {props.result.faceIsFoundInImage.toString()}</div>;
-
-  if (props.result.personData != null) {
-    var name = null;
-    var age = null;
-    var externalId = null;
-
-    name = <div>Кто на фотографии: {props.result.personData.lastName} {props.result.personData.firstName} {props.result.personData.middleName != null ? props.result.personData.middleName : ''}</div>;
-
-    if (props.result.personData.age != null)
-      age = <div>Возраст: {props.result.personData.age}</div>;
-
-    if (props.result.personData.externalId != null)
-      externalId = <div>Внешний айди: {props.result.personData.externalId}</div>;
-
-    return (
-      <div>
-        {name}
-        {age}
-        {externalId}
-      </div>
-    );
-  } else
-    return (
-      <div>
-        {faceIsDetected}
-        {props.result.faceIsFoundInImage ? <div>Данного человека в БД нет</div> : null}
-      </div>
-    );
 }
 
 export default Recognition;

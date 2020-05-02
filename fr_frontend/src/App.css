@@ -172,6 +172,12 @@ html, body ,#root, .App {
   border-radius: 2px;
   border: 2px solid #919095;
   margin-top: 1%;
+  color: #E0E0E0;
+  font-size: 16px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
 }
 
 input.uploadInput {
