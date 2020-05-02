@@ -80,13 +80,17 @@ html, body ,#root, .App {
   display: flex;
 }
 
-.people {
+.people, .loadedImage {
   margin: 3%;
   width: 54%;
 }
 
-.people img {
+.loadedImage img {
   height: 100%;
+}
+
+.image {
+  height: 100px;
 }
 
 .recognitionData {

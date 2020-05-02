@@ -10,6 +10,13 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
+  {
+    id: 'image',
+    label: 'Image',
+    minWidth: '10%',
+    align: 'center',
+    // format: (value) => <img class="image" src={} />,
+  },
   { id: 'lastName', label: 'Last name', minWidth: '10%', align: 'center'},
   { id: 'firstName', label: 'First name', minWidth: '10%', align: 'center'},
   {
@@ -91,7 +98,11 @@ function StickyHeadTable(props) {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {typeof value === "undefined" ? <div id="delete" onClick={() => {props.onClick(row)}}>Delete</div> : value}
+                        {typeof value === "undefined" ? 
+                                                      <div id="delete" onClick={() => {props.onClick(row)}}>Delete</div> : 
+                                                      column.id == "image" ? 
+                                                                          <img className="image" src={"data:image/jpg;base64, " + value} />  :
+                                                                           value}
                       </TableCell>
                     );
                   })}

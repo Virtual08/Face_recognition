@@ -49,7 +49,7 @@ class Recognition extends Component {
     return (
       <div className="Recognition">
         <div className="content">
-          <div className="people"><img src={this.state.imagePreviewUrl} alt="People" /></div>
+          <div className="loadedImage"><img src={this.state.imagePreviewUrl} alt="People" /></div>
           <div className="recognitionData">
             <PersonData result={this.state.result} />
             <UploadButton id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
