@@ -74,10 +74,10 @@ class Recognition extends Component {
         <div className="loadedImage"><img src={this.state.imagePreviewUrl} alt="People" /></div>
         <div className="recognitionData">
           <div className="result">
-            <OutputText label="Full name" id="fullName" value={fullName}></OutputText>
-            <OutputText label="External id" id="externalId" value={externalId}></OutputText>
-            <OutputText label="Age" id="age" value={age}></OutputText>
-            <OutputText label="Message" id="message" value={message}></OutputText>
+            <OutputText label="Full name" id="fullNameR" value={fullName}></OutputText>
+            <OutputText label="External id" id="externalIdR" value={externalId}></OutputText>
+            <OutputText label="Age" id="ageR" value={age}></OutputText>
+            <OutputText label="Message" id="messageR" value={message}></OutputText>
           </div>
           <div className="buttons">
             <UploadButton className="recognitionBtn" id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
