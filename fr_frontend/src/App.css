@@ -75,7 +75,7 @@ html, body ,#root, .App {
   cursor: pointer;
 }
 
-.buttons {
+.recognitionButtons {
   width: 95%;
   display: flex;
 }
@@ -132,7 +132,7 @@ html, body ,#root, .App {
 
 .people {
   /* margin: 3%; */
-  width: 54%;
+  width: 78%;
 }
 
 .image {
@@ -186,4 +186,52 @@ input.uploadInput {
 
 #delete {
   background-color: #008AFF;
+}
+
+.newPersonData {
+  width: 38%;
+  height: 85%;
+  margin: auto 0 auto 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: #504F54;
+  border-radius: 2px;
+}
+
+.addPersonButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+.addPersonBtn {
+  margin: 25% 0;
+}
+
+.personData {
+  width: 80%;
+  height: 55%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+.inputBlock {
+  height: 15%;
+}
+
+.inputText {
+  height: 50%;
+  width: 95%;
+  border-radius: 2px;
+  border: 2px solid #919095;
+  margin-top: 1%;
+  color: #E0E0E0;
+  font-size: 16px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  padding-left: 3%;
+  background: transparent;
 }

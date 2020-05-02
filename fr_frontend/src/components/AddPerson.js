@@ -104,27 +104,21 @@ class AddPerson extends Component {
           <div className="people">
             <StickyHeadTable data={this.state.people} onClick={this.clickOnDeleteHandle} />
           </div>
-          <div className="recognitionData">
-            <div>
+          <div className="newPersonData">
+            <div className="personData">
               <InputText value="First name" type="text" name="firstName" onChange={this.textUpdateHandler}></InputText>
-            </div>
-            <div>
               <InputText value="Last name" type="text" name="lastName" onChange={this.textUpdateHandler}></InputText>
-            </div>
-            <div>
               <InputText value="Middle name" type="text" name="middleName" onChange={this.textUpdateHandler}></InputText>
-            </div>
-            <div>
               <InputText value="Age" type="text" name="age" onChange={this.textUpdateHandler}></InputText>
-            </div>
-            <div>
               <InputText value="External id" type="text" name="externalId" onChange={this.textUpdateHandler}></InputText>
             </div>
-            <UploadButton id="uploadPhoto" value="Upload photo" onClick={this.fileUploadHandler}>
-            </UploadButton>
-            <button onClick={this.addPersonHandler}>
-              Add person
-            </button>
+            <div className="addPersonButtons">
+              <UploadButton className="addPersonBtn" id="uploadPhoto" value="Upload photo" onClick={this.fileUploadHandler}>
+              </UploadButton>
+              <div className="button addPersonBtn" onClick={this.addPersonHandler}>
+                Add person
+              </div>
+            </div>
           </div>
       </div>
     );

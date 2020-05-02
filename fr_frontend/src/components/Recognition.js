@@ -79,7 +79,7 @@ class Recognition extends Component {
             <OutputText label="Age" id="ageR" value={age}></OutputText>
             <OutputText label="Message" id="messageR" value={message}></OutputText>
           </div>
-          <div className="buttons">
+          <div className="recognitionButtons">
             <UploadButton className="recognitionBtn" id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
             </UploadButton>
             <div className="button recognitionBtn" onClick={this.recognitionHandler}>
