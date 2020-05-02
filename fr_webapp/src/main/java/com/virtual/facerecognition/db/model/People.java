@@ -27,6 +27,9 @@ public class People implements Serializable {
     @Column
     private String externalId;
 
+    @Transient
+    private byte[] image;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "personId")
     private List<Faces> faces = new ArrayList<>();
@@ -97,5 +100,13 @@ public class People implements Serializable {
 
     public void setImages(Images image) {
         this.images.add(image);
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

@@ -13,10 +13,7 @@ import com.virtual.facerecognition.model.StatusAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -105,12 +102,12 @@ public class RESTController {
 
         peopleRepository.save(people);
 
-        return peopleRepository.findAll();
+        return findAllPeople();
     }
 
     @GetMapping("/getPeople")
     public Iterable<People> getPeople() {
-        return peopleRepository.findAll();
+        return findAllPeople();
     }
 
     @DeleteMapping("/deletePerson/{personId}")
@@ -127,7 +124,21 @@ public class RESTController {
 
         peopleRepository.deleteById(personId);
 
-        return peopleRepository.findAll();
+        return findAllPeople();
+    }
+
+    private  Iterable<People> findAllPeople () {
+        Iterable<People> people = peopleRepository.findAll();
+
+        for (People person:people) {
+            HttpEntity<MultiValueMap<String, Object>> requestEntityForStorage = new HttpEntity<>(new HttpHeaders());
+
+            ResponseEntity<byte[]> response = new RestTemplate().exchange(frStorageApiUrl + "/load/" + person.getImages().get(0).getFileName(), HttpMethod.GET, requestEntityForStorage, byte[].class);
+
+            person.setImage(response.getBody());
+        }
+
+        return  people;
     }
 
     private HttpHeaders getHeaders(MediaType mediaType) {
