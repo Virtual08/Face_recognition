@@ -1,92 +1,138 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), 
+  url('fonts/OpenSans-Regular.ttf') format('truetype')
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: 700;
+  src: local('Open Sans'), local('OpenSans'), 
+  url('fonts/OpenSans-Bold.ttf') format('truetype')
+}
+
 html, body ,#root, .App {
   width: 100%;
   height: 100%;
 }
 
 .App {
-  /* text-align: center; */
-  background: linear-gradient(to bottom, #008AFF, #A8A6FF);
   display: flex;
-  /* flex-direction: column; */
-  flex-wrap: wrap;
-  /* align-content: stretch; */
-  /* align-items: center; */
-  /* justify-content: center; */
-  font-size: calc(10px + 2vmin);
-  /* min-height: 100vh; */
+  flex-wrap: nowrap;
   color: white;
+  background: url(./images/background.png);
+  background-position: center;
 }
 
 .Menu {
   display: flex;
   flex-direction: column;
-  width: 10%;
-  height: 91%;
-  background-color: #FBFBFB;
-  box-shadow: 1px 10px 10px 0px rgba(0,0,0,0.5);
-  z-index: 0;
-  min-width: 190px;
+  width: 12%;
+  background-color: #000000;
+  min-width: 230px;
 }
 
-.Header {
-  display: flex;
-  height: 9%;
-  justify-content: flex-end;
-  background-color: #FBFBFB;
-  width: 100%;
-  box-shadow: 0 0px 10px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+.Menu a {
+  cursor: default;
+  text-decoration: none;
+  color: #FFFFFF;
 }
 
-.AddPerson, .Recognition {
+.menuButton {
   display: flex;
-  height: 79%;
-  width: 84%;
-  margin: 3% 3%;
-  box-shadow: 0 0 10px 0px rgba(0,0,0,0.5);
-  background-color: #FBFBFB;
+  align-items: center;
+  justify-content: center;
+
+  width: 160px;
+  height: 40px;
+  
+  background: #17A1C1;
+  border-radius: 2px;
+
+  font-size: 16px;
+  line-height: 22px;
+
+  cursor: pointer;
+
+  margin: 10% auto;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 160px;
+  height: 40px;
+  
+  background: #17A1C1;
+  border-radius: 2px;
+
+  font-size: 16px;
+  line-height: 22px;
+
+  cursor: pointer;
+}
+
+.buttons {
+  width: 95%;
+  display: flex;
+}
+
+.recognitionBtn {
+  margin: 13% auto;
 }
 
 .logo {
-  width: 61%;
-  height: 100%;
+  text-align: center;
+  margin: 5%;
 }
 
-.Menu a button {
-  width: 90%;
-  margin: 0 5%;
+.logoImg {
+  margin: 5% 0;
 }
 
-.Header a:first-child {
-  margin-right: auto;
-}
+.logoName {
+  font-size: 25px;
+  line-height: 30px;
 
-.Header svg {
-  font-size: calc(16px + 2vmin);
-} 
-
-.Recognition {
-
+  text-align: center;
+  letter-spacing: 0.1em;
 }
 
 .content {
-  color: black;
+  display: flex;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
 }
 
-.content {
-  width: 90%;
-  height: 80%;
+.AddPerson, .Recognition {
+  width: 85%;
+  height: 87%;
   margin: auto;
   display: flex;
 }
 
-.people, .loadedImage {
-  margin: 3%;
-  width: 54%;
+.loadedImage {
+  width: 45%;
+  border: 2px dashed #B2B1B7;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .loadedImage img {
-  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.people {
+  /* margin: 3%; */
+  width: 54%;
 }
 
 .image {
@@ -94,23 +140,43 @@ html, body ,#root, .App {
 }
 
 .recognitionData {
-  margin: 3%;
-  width: 34%;
+  width: 40%;
+  height: 65%;
+
+  margin: auto 0 auto 15%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+
+  background-color: #504F54;
+  border-radius: 2px;
+}
+
+.result {
+  width: 80%;
+  height: 60%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+.outputBlock {
+  height: 23%;
+}
+
+.outputText {
+  /* height: 35px; */
+  height: 60%;
+  border-radius: 2px;
+  border: 2px solid #919095;
+  margin-top: 1%;
 }
 
 input.uploadInput {
   display: none;
 }
-
-.recognitionData button, .recognitionData label {
-  margin: 5% 0%;
-}
-
 
 #delete {
   background-color: #008AFF;

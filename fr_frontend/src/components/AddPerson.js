@@ -8,7 +8,8 @@ class AddPerson extends Component {
     super(props);
     this.state = {
       selectedFile: null,
-      people: []
+      people: [],
+      error: null
     }
     this.getPeople();
   };
@@ -100,11 +101,10 @@ class AddPerson extends Component {
   render() {
     return (
       <div className="AddPerson">
-        <div className="content">
           <div className="people">
             <StickyHeadTable data={this.state.people} onClick={this.clickOnDeleteHandle} />
           </div>
-          <div className="recognitionData" onClick={this.loadDataAboutPeople}>
+          <div className="recognitionData">
             <div>
               <InputText value="First name" type="text" name="firstName" onChange={this.textUpdateHandler}></InputText>
             </div>
@@ -126,7 +126,6 @@ class AddPerson extends Component {
               Add person
             </button>
           </div>
-        </div>
       </div>
     );
   }

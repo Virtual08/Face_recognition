@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import './App.css';
 import Recognition from './components/Recognition';
 import AddPerson from './components/AddPerson';
-import logo from './logo.svg';
+import logo from './images/logo.svg';
 
 class App extends Component {
   constructor(props) {
@@ -17,12 +17,13 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Header />
           <Menu />
-          <Switch>
-            <Route exact path="/" component={Recognition} />
-            <Route path="/addPerson" component={AddPerson} />
-          </Switch>
+          <div className="content">
+            <Switch>
+              <Route exact path="/" component={Recognition} />
+              <Route path="/addPerson" component={AddPerson} />
+            </Switch>
+          </div>
         </Router>
       </div>
     );
@@ -37,15 +38,21 @@ class Menu extends Component {
   render() {
     return (
       <div className="Menu">
+        <div className="logo">
+          <Logo />
+          <div className="logoName">
+            Face recognition
+          </div>
+        </div>
         <Link to='/'>
-          <button>
+          <div className="menuButton">
             Recognition
-          </button>
+          </div>
         </Link>
         <Link to='/addPerson'>
-          <button>
+          <div className="menuButton">
             Adding photo
-          </button>
+          </div>
         </Link>
       </div>
     );
@@ -53,40 +60,7 @@ class Menu extends Component {
 }
 
 function Logo(props) {
-  return <Link to='/'><img className="logo" src={logo} alt="Logo" /></Link>;
-}
-
-function Exit(props) {
-  return  '';/*(
-    <IconButton aria-label="delete" disabled color="primary">
-      <ExitToAppIcon color="primary" />
-    </IconButton>
-  );*/
-}
-
-function Key(props) {
-  return '';/*(
-    <IconButton aria-label="delete" disabled color="primary">
-      <VpnKeyIcon color="primary" />
-    </IconButton>
-  );*/
-}
-
-
-class Header extends Component {
-  constructor(props) {
-    super(props);
-  };
-
-  render() {
-    return (
-      <div className="Header">
-        <Logo />
-        <Key />
-        <Exit />
-      </div>
-    );
-  }
+  return <Link to='/'><img className="logoImg" src={logo} alt="Logo" /></Link>;
 }
 
 export default App;

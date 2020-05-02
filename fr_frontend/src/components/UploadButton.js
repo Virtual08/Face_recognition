@@ -2,15 +2,15 @@ import React from 'react';
 
 function UploadButton(props) {
     return (
-        <div>
+        <div className={props.className}>
             <input
                 accept="image/*"
                 className="uploadInput"
                 id={props.id}
                 type="file"
-                // onChange={}
+                accept="image/jpeg, image/png"
             />
-            <div className="uploadButton" onClick={props.onClick}>
+            <div className="button" id="uploadBtn" onClick={props.onClick}>
                 {props.value}
             </div>
         </div>

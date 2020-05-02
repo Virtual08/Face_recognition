@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import people from './people.svg';
+import people from '../images/photo.svg';
 import UploadButton from './UploadButton';
+import OutputText from './OutputText';
 
 class Recognition extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Recognition extends Component {
     var formData = new FormData();
     formData.append('file', this.state.selectedFile);
 
-    fetch('http://172.17.184.34:32710/recognize', {
+    fetch('http://localhost:8080/recognize', {
       method: 'POST',
       headers: {
         // 'Content-Type': 'multipart/form-data'
@@ -48,15 +49,21 @@ class Recognition extends Component {
   render() {
     return (
       <div className="Recognition">
-        <div className="content">
-          <div className="loadedImage"><img src={this.state.imagePreviewUrl} alt="People" /></div>
-          <div className="recognitionData">
-            <PersonData result={this.state.result} />
-            <UploadButton id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
+        <div className="loadedImage"><img src={this.state.imagePreviewUrl} alt="People" /></div>
+        <div className="recognitionData">
+          <div className="result">
+            <OutputText label="Full name"></OutputText>
+            <OutputText label="External id"></OutputText>
+            <OutputText label="Age"></OutputText>
+            <OutputText label="Message"></OutputText>
+          </div>
+          {/* <PersonData result={this.state.result} /> */}
+          <div className="buttons">
+            <UploadButton className="recognitionBtn" id="recognitionUpload" value="Upload photo" onClick={this.fileUploadHandler}>
             </UploadButton>
-            <button onClick={this.recognitionHandler}>
+            <div className="button recognitionBtn" onClick={this.recognitionHandler}>
               Recognize
-            </button>
+            </div>
           </div>
         </div>
       </div>
