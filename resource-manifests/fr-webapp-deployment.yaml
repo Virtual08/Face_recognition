@@ -27,6 +27,8 @@ spec:
         env:
           - name: FR_LOGIC_API_URL
             value: "http://fr-logic"
+          - name: fr.storage.api.url
+            value: "http://fr-storage"
           - name: spring.datasource.url
             value: "jdbc:mysql://mysql/devdb"
           - name: spring.jpa.hibernate.ddl-auto
