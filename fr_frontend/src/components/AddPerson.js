@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UploadButton from './UploadButton';
 import InputText from './InputText';
 import StickyHeadTable from './Table';
+import OutputText from './OutputText';
 
 class AddPerson extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class AddPerson extends Component {
   };
 
   addPersonHandler = event => {
-    if (this.state.selectedFile == null || this.state.firstName.length == 0 || this.state.lastName.length == 0) return;
+    if (this.state.selectedFile == null || this.state.firstName.length == 0 || this.state.lastName.length == 0) { this.setState({error: 3}); return; }
 
     var formData = new FormData();
     formData.append('file', this.state.selectedFile);
@@ -66,7 +67,8 @@ class AddPerson extends Component {
       .then(response => response.json())
       .then(result => {
         this.setState({
-          people: result,
+          people: result.people,
+          error: result.error,
           selectedFile: null,
           firstName: '',
           lastName: '',
@@ -124,6 +126,14 @@ class AddPerson extends Component {
   };
 
   render() {
+    var message;
+
+    if(this.state.error == 1 || this.state.error == 2) 
+      message = "Неудачное фото";
+
+    if(this.state.error == 3) 
+      message = "Фамилия, имя и фото обязательны";
+
     return (
       <div className="AddPerson">
           <div className="people">
@@ -136,6 +146,7 @@ class AddPerson extends Component {
               <InputText value="Middle name" type="text" name="middleName" onChange={this.textUpdateHandler}></InputText>
               <InputText value="Age" type="text" name="age" onChange={this.textUpdateHandler}></InputText>
               <InputText value="External id" type="text" name="externalId" onChange={this.textUpdateHandler}></InputText>
+              <OutputText label="Message" id="messageA" value={message}></OutputText>
             </div>
             <div className="addPersonButtons">
               <UploadButton className="addPersonBtn" id="uploadPhoto" value="Upload photo" onClick={this.fileUploadHandler}>

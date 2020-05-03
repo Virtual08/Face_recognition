@@ -6,10 +6,7 @@ import com.virtual.facerecognition.db.model.People;
 import com.virtual.facerecognition.db.repository.FacesRepository;
 import com.virtual.facerecognition.db.repository.ImagesRepository;
 import com.virtual.facerecognition.db.repository.PeopleRepository;
-import com.virtual.facerecognition.model.Answer;
-import com.virtual.facerecognition.model.EmbeddingAnswer;
-import com.virtual.facerecognition.model.RecognizeAnswer;
-import com.virtual.facerecognition.model.StatusAnswer;
+import com.virtual.facerecognition.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -60,7 +57,7 @@ public class RESTController {
     }
 
     @PostMapping("/addPerson")
-    public Iterable<People> addPerson(@RequestParam String firstName, @RequestParam(required = false) String middleName,
+    public AddPersonAnswer addPerson(@RequestParam String firstName, @RequestParam(required = false) String middleName,
                                       @RequestParam String lastName, @RequestParam(required = false) Integer age,
                                       @RequestParam(required = false) String externalId, @RequestParam MultipartFile file) {
         MultiValueMap<String, Object> bodyStorage = new LinkedMultiValueMap<>();
@@ -70,7 +67,7 @@ public class RESTController {
 
         Answer<StatusAnswer> status = new RestTemplate().exchange(frStorageApiUrl + "/save", HttpMethod.POST, requestEntityForStorage, new ParameterizedTypeReference<Answer<StatusAnswer>>(){}).getBody();
 
-        if(status.getResult() == null || !status.getResult().getStatus()) return null;
+        if(status.getResult() == null || !status.getResult().getStatus()) return new AddPersonAnswer(findAllPeople(), 1);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
@@ -79,7 +76,7 @@ public class RESTController {
 
         Answer<EmbeddingAnswer> embedding = new RestTemplate().exchange(frLogicApiUrl + "/getEmbedding", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Answer<EmbeddingAnswer>>(){}).getBody();
 
-        if(!embedding.getResult().getFaceIsFoundInImage()) return null;
+        if(!embedding.getResult().getFaceIsFoundInImage() || embedding.getResult().getFaceEmbedding().isEmpty()) return new AddPersonAnswer(findAllPeople(), 2);
 
 
         People people = new People();
@@ -102,7 +99,7 @@ public class RESTController {
 
         peopleRepository.save(people);
 
-        return findAllPeople();
+        return new AddPersonAnswer(findAllPeople());
     }
 
     @GetMapping("/getPeople")
@@ -138,7 +135,7 @@ public class RESTController {
             person.setImage(response.getBody());
         }
 
-        return  people;
+        return people;
     }
 
     private HttpHeaders getHeaders(MediaType mediaType) {
