@@ -9,7 +9,12 @@ class AddPerson extends Component {
     this.state = {
       selectedFile: null,
       people: [],
-      error: null
+      error: null,
+      firstName: '',
+      lastName: '',
+      middleName: '',
+      age: '',
+      externalId: ''
     }
     this.getPeople();
   };
@@ -37,13 +42,19 @@ class AddPerson extends Component {
   };
 
   addPersonHandler = event => {
+    if (this.state.selectedFile == null || this.state.firstName.length == 0 || this.state.lastName.length == 0) return;
+
     var formData = new FormData();
     formData.append('file', this.state.selectedFile);
     formData.append('firstName', this.state.firstName);
     formData.append('lastName', this.state.lastName);
-    formData.append('middleName', this.state.middleName);
-    formData.append('age', this.state.age);
-    formData.append('externalId', this.state.externalId);
+
+    if(this.state.middleName.length > 0)
+      formData.append('middleName', this.state.middleName);
+    if(this.state.age.length > 0)
+      formData.append('age', this.state.age);
+    if(this.state.externalId.length > 0)
+      formData.append('externalId', this.state.externalId);
 
     fetch('http://localhost:8080/addPerson', {
       method: 'POST',
@@ -55,12 +66,26 @@ class AddPerson extends Component {
       .then(response => response.json())
       .then(result => {
         this.setState({
-          people: result
+          people: result,
+          selectedFile: null,
+          firstName: '',
+          lastName: '',
+          middleName: '',
+          age: '',
+          externalId: ''
         });
       });
 
-    this.getPeople();
+    this.clearInputs()
+    // this.getPeople();
   };
+
+  clearInputs() {
+    var inputs = document.getElementsByTagName('input');
+
+    for(var i = 0; i < inputs.length; i++)
+        inputs[i].value = '';
+  }
 
   getPeople() {
     fetch("http://localhost:8080/getPeople")
