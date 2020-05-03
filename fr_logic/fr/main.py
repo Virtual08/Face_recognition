@@ -30,11 +30,9 @@ def getRecognitionResult(file_stream, faces):
 
     known_face_encodings = [json.loads(face["embedding"]) for face in faces]
 
-    ### I can write 'for' and return all recognized people
-
     face_distances = face_recognition.face_distance(known_face_encodings, unknown_face_encodings[0])
 
-    if np.min(face_distances) > 0.6: ### Just 0.6. Without some kind logic. I think it's better to use face_compare
+    if np.min(face_distances) > 0.6:
         return result
 
     bestMatchIndex = np.argmin(face_distances)
@@ -58,7 +56,7 @@ def getEmbedding(file_stream):
     result = { 
         "result": {
             "faceIsFoundInImage": False,
-            "faceEmbedding": 'null'
+            "faceEmbedding": []
         }
     }
 
