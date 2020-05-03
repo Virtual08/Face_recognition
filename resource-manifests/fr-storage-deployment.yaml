@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fr-storage
+spec:
+  selector:
+    matchLabels:
+      app: fr-storage
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: fr-storage
+    spec:
+      containers:
+      - image: virtual8/face-recognition-storage:latest
+        name: fr-storage
+        ports:
+        - containerPort: 5005
+          name: fr-storage
+        volumeMounts:
+        - name: fr-storage-persistent-storage
+          mountPath: /images
+      volumes:
+      - name: fr-storage-persistent-storage
+        persistentVolumeClaim:
+          claimName: fr-storage-pv-claim
