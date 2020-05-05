@@ -21,7 +21,7 @@ spec:
         app: fr-frontend
     spec:
       containers:
-        - image: virtual8/face-recognition-frontend
+        - image: virtual8/face-recognition-frontend:latest
           imagePullPolicy: Always
           name: fr-frontend
           ports:

@@ -8,12 +8,12 @@ spec:
   selector:
     matchLabels:
       app: fr-webapp
-  replicas: 2
+  replicas: 1
   minReadySeconds: 15
   strategy:
     type: RollingUpdate
     rollingUpdate: 
-      maxUnavailable: 1
+      maxUnavailable: 2
       maxSurge: 1
   template:
     metadata:
@@ -21,18 +21,18 @@ spec:
         app: fr-webapp
     spec:
       containers:
-      - image: virtual8/face-recognition-webapp
+      - image: virtual8/face-recognition-webapp:latest
         imagePullPolicy: Always
         name: fr-webapp
         env:
           - name: FR_LOGIC_API_URL
             value: "http://fr-logic"
-          - name: fr.storage.api.url
+          - name: FR_STORE_URL
             value: "http://fr-storage"
-          - name: spring.datasource.url
+          - name: SPRING_DS_URL
             value: "jdbc:mysql://mysql/devdb"
-          - name: spring.jpa.hibernate.ddl-auto
-            value: "none" 
+          - name: SPRING_DDL
+            value: "create" 
           - name: spring.datasource.username
             value: "dbuser"
           - name: spring.datasource.password
